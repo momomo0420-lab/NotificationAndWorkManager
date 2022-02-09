@@ -1,9 +1,9 @@
 package com.example.notificationandworkmanager
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.text.format.DateFormat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.Worker
@@ -20,21 +20,36 @@ class MyWorker(
 
     private val context = applicationContext
 
-    private lateinit var myNotification: Notification
-
     override fun doWork(): Result {
-        myNotification = createNotification()
+        // 通知を作成
+        val myNotification = createNotification()
+        val now = getCurrentDateAndTime()
+        myNotification.setContentText(now)
 
         // 通知用チャンネルを登録
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val channel = createMyNotificationChannel()
         manager.createNotificationChannel(channel)
 
+        // 通知を表示する
         NotificationManagerCompat
             .from(context)
-            .notify(100, myNotification)
+            .notify(100, myNotification.build())
 
         return Result.success()
+    }
+
+    /**
+     * 現在時刻（文字列）を取得
+     *
+     * @return 現在時刻（文字列）
+     */
+    private fun getCurrentDateAndTime(): String {
+        val now = System.currentTimeMillis()
+        return DateFormat.format(
+            "yyyy-MM-dd hh:mm:ss",
+            now
+        ).toString()
     }
 
     /**
@@ -57,13 +72,12 @@ class MyWorker(
      *
      * @return 通知
      */
-    private fun createNotification() : Notification {
+    private fun createNotification() : NotificationCompat.Builder {
         return NotificationCompat
             .Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle("My Notification")
             .setContentText("Notification Practice")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
     }
 }
