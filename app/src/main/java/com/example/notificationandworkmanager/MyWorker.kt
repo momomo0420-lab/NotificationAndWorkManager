@@ -2,7 +2,10 @@ package com.example.notificationandworkmanager
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Context
+import android.content.Intent
 import android.text.format.DateFormat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -25,6 +28,15 @@ class MyWorker(
         val myNotification = createNotification()
         val now = getCurrentDateAndTime()
         myNotification.setContentText(now)
+
+        // PendingIntentを作成
+        val intent = Intent(context, MainActivity::class.java)
+        val pendingIntent: PendingIntent? = TaskStackBuilder.create(context).run {
+            addNextIntentWithParentStack(intent)
+            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+        }
+        myNotification.setContentIntent(pendingIntent)
+
 
         // 通知用チャンネルを登録
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
