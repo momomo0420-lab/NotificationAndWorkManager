@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener(myOnClickListener)
 
         // テストコメント2
+        // テストコメント3
     }
 
     // ボタン押下時の処理（リスナー）
