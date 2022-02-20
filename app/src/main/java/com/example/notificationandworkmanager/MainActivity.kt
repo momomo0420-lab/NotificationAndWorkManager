@@ -18,6 +18,9 @@ class MainActivity : AppCompatActivity() {
         // ボタン押下時の処理登録
         val button = findViewById<Button>(R.id.button)
         button.setOnClickListener(myOnClickListener)
+
+        // テストコメント2
+        // テストコメント3
     }
 
     // ボタン押下時の処理（リスナー）
