@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
 
         // テストコメント2
         // テストコメント3
+        // テストコメント4
+        // テストコメント5
     }
 
     // ボタン押下時の処理（リスナー）
